@@ -2,6 +2,8 @@
 
 ![Bidur Sapkota](https://www.bidursapkota.com.np/images/gravatar.webp "Bidur Sapkota - Developer")&nbsp;[Bidur Sapkota](https://www.bidursapkota.com.np/)
 
+![Clean Code Complete Guide by Bidur Sapkota](clean-code-1200.webp "Clean Code Complete Guide – Blog by Bidur Sapkota")
+
 ## Table of Contents
 
 1. [What Is Clean Code?](#what-is-clean-code)
