@@ -2082,37 +2082,37 @@ The dependency is inverted: instead of `App` knowing how to connect the database
 
 ### Comments & Formatting
 
-- Most comments are bad: avoid them!
-- Acceptable comments: legal info, warnings, regex explanations, todos
+- Most comments are bad, so avoid them!
+- Acceptable comments are legal info, warnings, regex explanations, and todos
 - Keep related concepts close together (vertical density)
 - Add spacing between unrelated concepts (vertical distance)
-- Write code top to bottom: called functions below calling functions
-- Avoid long lines: break them into multiple lines
+- Write code top to bottom with called functions below calling functions
+- Avoid long lines and break them into multiple lines
 - Use indentation to express scope
 
 ### Functions
 
-- Limit the number of parameters: less is better! Use objects to group parameters
+- Limit the number of parameters because less is better. Use objects to group parameters
 - Functions should be small and do one thing
 - Keep operations one level of abstraction below the function name
 - Avoid mixing levels of abstraction
-- But: avoid redundant splitting. Don't extract just for extraction's sake
+- Avoid redundant splitting. Don't extract just for extraction's sake
 - Stay DRY (Don't Repeat Yourself)
 - Avoid unexpected side effects
 
 ### Control Structures & Errors
 
 - Prefer positive checks
-- Avoid deep nesting: use guards and early returns
+- Avoid deep nesting by using guards and early returns
 - Consider using polymorphism and factory functions
 - Extract control structures into separate functions
 - Use real errors (`throw`/`try-catch`) instead of synthetic error objects with `if` checks
-- Avoid magic numbers & strings: use constants or enums
+- Avoid magic numbers and strings. Use constants or enums instead
 
 ### Objects & Classes
 
 - Differentiate between real objects (public API) and data containers (public properties)
 - Build small classes focused on a single responsibility
-- Aim for high cohesion: methods should use class properties
-- Follow the Law of Demeter: avoid chaining through strangers
+- Aim for high cohesion so that methods use class properties
+- Follow the Law of Demeter and avoid chaining through strangers
 - Follow the SOLID principles, especially SRP and OCP
