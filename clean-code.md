@@ -255,7 +255,7 @@ class Analytics {
 }
 ```
 
-### Naming Demo: Bad → Better → Clean
+### Naming Demo
 
 ```ts
 // Bad: cryptic names, abbreviations, unclear intent
