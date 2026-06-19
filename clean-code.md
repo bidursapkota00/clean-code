@@ -1230,13 +1230,13 @@ function validateUserInputBad(email: string, password: string): void {
   if (!email.includes("@") || password.length < 7) {
     throw new Error("Invalid input!");
   }
-  createSession(); // ← side effect hidden in a "validate" function!
+  createSession(); // <-- side effect hidden in a "validate" function!
 }
 
 // Good: side effects are in functions whose names imply them
 function login(email: string, password: string): void {
   validateUserInput(email, password);
-  createSession(); // ← expected here, because "login" implies state change
+  createSession(); // <-- expected here, because "login" implies state change
 }
 
 function validateUserInput(email: string, password: string): void {
@@ -1267,7 +1267,7 @@ let lastAssignedId: string;
 
 function generateIdWithSideEffect(userName: string): string {
   const id = "id_" + userName;
-  lastAssignedId = id; // ← side effect: changes external variable
+  lastAssignedId = id; // <-- side effect: changes external variable
   return id;
 }
 ```
@@ -2172,7 +2172,7 @@ class BirdBad {
 
 class PenguinBad extends BirdBad {
   fly(): void {
-    throw new Error("Penguins can't fly!"); // ← breaks substitution
+    throw new Error("Penguins can't fly!"); // <-- breaks substitution
   }
 }
 
@@ -2303,7 +2303,7 @@ class AppBad {
 
   constructor(database: any) {
     if (database.connect) {
-      database.connect("my-url"); // ← depending on concretion
+      database.connect("my-url"); // <-- depending on concretion
     }
     this.database = database;
   }
