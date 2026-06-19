@@ -23,11 +23,11 @@ Clean code is code that is easy to read, understand, and maintain. It's not abou
 
 ### Clean Code vs Clean Architecture
 
-| Aspect | Clean Code                    | Clean Architecture          |
-| ------ | ----------------------------- | --------------------------- |
-| Focus  | How to write the code         | Where to write which code   |
-| Scope  | Single problems / files       | The project as a whole      |
-| Goal   | Readable & easy to understand | Maintainable and extensible |
+| Clean Code                                 | Clean Architecture                     |
+| ------------------------------------------ | -------------------------------------- |
+| Focuses on how to write the code           | Focuses on where to write which code   |
+| Deals with single problems or files        | Deals with the project as a whole      |
+| Aims to be readable and easy to understand | Aims to be maintainable and extensible |
 
 ### Key Pain Points
 
