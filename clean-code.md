@@ -29,15 +29,13 @@ Clean code is code that is easy to read, understand, and maintain. It's not abou
 | Deals with single problems or files        | Deals with the project as a whole      |
 | Aims to be readable and easy to understand | Aims to be maintainable and extensible |
 
-### Key Pain Points
+### Common Problems
 
-| Area                  | Common Problems                                                          |
-| --------------------- | ------------------------------------------------------------------------ |
-| Names                 | Unclear variable, function, and class names                              |
-| Functions             | Too many parameters, too long, doing multiple things                     |
-| Comments & Formatting | Redundant comments, poor vertical/horizontal spacing                     |
-| Conditionals & Errors | Deep nesting, missing error handling                                     |
-| Classes & Objects     | Bloated classes, missing distinction between objects and data containers |
+- Names are often unclear for variables, functions, and classes
+- Functions tend to have too many parameters, run too long, and do multiple things
+- Comments and formatting suffer from redundant comments and poor vertical/horizontal spacing
+- Conditionals and errors lead to deep nesting and missing error handling
+- Classes and objects become bloated, with no clear distinction between objects and data containers
 
 ### Embrace Refactoring
 
