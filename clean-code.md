@@ -160,7 +160,7 @@ Class names should describe the kind of object it will create. Use nouns and avo
 class UEntity {}
 class ObjA {}
 
-// ❌ Okay but redundant — "Obj" adds no information
+// Okay but redundant — "Obj" adds no information
 class UserObj {}
 
 // Good — clean, descriptive nouns
@@ -198,7 +198,7 @@ const activeAccounts = accounts.filter((a) => a.active);
 If you used `fetchUsers()` in one part of your code, use `fetchProducts()` — not `getProducts()` — in another part. Pick one convention and stick with it throughout the entire codebase.
 
 ```ts
-// ❌ Inconsistent — mixing "get", "fetch", "retrieve"
+// Inconsistent — mixing "get", "fetch", "retrieve"
 function getUsers(): User[] {
   /* ... */ return [];
 }
@@ -209,7 +209,7 @@ function retrieveOrders(): Order[] {
   /* ... */ return [];
 }
 
-// ✅ Consistent — always use the same verb
+// Consistent — always use the same verb
 function fetchUsers(): User[] {
   /* ... */ return [];
 }
@@ -290,7 +290,7 @@ output(item);
 `Entity`, `desc`, `ymdhm`, `output`, and `item` are all vague. Let's improve:
 
 ```ts
-// ✅ Clean — descriptive names, clear intent
+// Clean — descriptive names, clear intent
 class BlogPost {
   title: string;
   description: string;
@@ -918,7 +918,7 @@ Splitting functions is important, but pointless extractions lead nowhere. Watch 
 3. You **can't come up with a reasonable name** that hasn't already been taken
 
 ```ts
-// ❌ Over-extracted — throwError and buildUser just rename existing operations
+// Over-extracted — throwError and buildUser just rename existing operations
 function createUser(email: string, password: string): void {
   validateInput(email, password);
   saveUser(email, password);
@@ -937,7 +937,7 @@ function buildUser(
 ```
 
 ```ts
-// ✅ Reasonable — each function does meaningful work
+// Reasonable — each function does meaningful work
 function createUser(email: string, password: string): void {
   validateInput(email, password);
   saveUser(email, password);
@@ -975,7 +975,7 @@ createUser("max@test.com", "secret123");
 Signs of code that is "not DRY": you find yourself copy-pasting code, or you need to apply the same change to multiple places.
 
 ```ts
-// ✅ DRY — shared validation logic reused across functions
+// DRY — shared validation logic reused across functions
 function createUser(email: string, password: string): void {
   if (!inputIsValid(email, password)) {
     showErrorMessage("Invalid input!");
@@ -1106,7 +1106,7 @@ Control structures (`if`, `for`, `while`, `switch`) are essential for coordinati
 Use positive wording in `if` checks when possible — it reduces mental overhead:
 
 ```ts
-// ✅ Preferred — reads naturally, no negation needed
+// Preferred — reads naturally, no negation needed
 function isEmpty(value: string): boolean {
   return !value || value.trim() === "";
 }
@@ -1115,7 +1115,7 @@ if (isEmpty(blogContent)) {
   throw new Error("No content provided!");
 }
 
-// ❌ Slightly worse — "!" requires extra mental parsing
+// Slightly worse — "!" requires extra mental parsing
 function hasContent(value: string): boolean {
   return !!value && value.trim() !== "";
 }
@@ -1128,12 +1128,12 @@ if (!hasContent(blogContent)) {
 But sometimes negative checks are simpler, especially when multiple states exist:
 
 ```ts
-// ✅ Better with negation — one check instead of many
+// Better with negation — one check instead of many
 if (!isOpen(transaction)) {
   throw new Error("Transaction is not open!");
 }
 
-// ❌ Worse — must enumerate every non-open state
+// Worse — must enumerate every non-open state
 if (isClosed(transaction) || isUnknown(transaction) || isPending(transaction)) {
   throw new Error("Transaction is not open!");
 }
@@ -1674,7 +1674,7 @@ class Inventory {
 Cohesion describes how much a class's methods use the class's properties. High cohesion is good — it means the class is focused. Low cohesion signals that the class might be better split or turned into a data container.
 
 ```ts
-// ✅ High Cohesion — every method uses the class properties
+// High Cohesion — every method uses the class properties
 class ShoppingCart {
   private items: { name: string; price: number }[] = [];
 
