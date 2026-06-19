@@ -51,7 +51,7 @@ Naming things (variables, properties, functions, methods, classes) correctly and
 
 ### Why Names Matter
 
-Well-named "things" allow readers to understand your code without going through it in detail:
+Well-named "things" allow readers to understand your code without going through it in detail.
 
 ```ts
 const user = new User();
@@ -134,7 +134,7 @@ function getEmail(userId: string): string {
 }
 ```
 
-For boolean-returning functions, phrase the name as a yes/no question:
+For boolean-returning functions, phrase the name as a yes/no question.
 
 ```ts
 function isValidEmail(email: string): boolean {
@@ -330,7 +330,7 @@ You might think comments help with code readability. In reality, the opposite is
 
 There are several kinds of bad comments you should avoid:
 
-**Dividers & Markers**: redundant if your code uses proper names:
+**Dividers & Markers**: redundant if your code uses proper names.
 
 ```ts
 // Bad: dividers clutter the file and stop reading flow
@@ -354,7 +354,7 @@ class Product {
 }
 ```
 
-**Redundant Information**: restating what the code already says:
+**Redundant Information**: restating what the code already says.
 
 ```ts
 // Bad: the comment adds nothing the name doesn't already say
@@ -368,7 +368,7 @@ function createUser() {
 }
 ```
 
-**Commented-Out Code**: delete it. Use source control (Git) to bring back old code if needed:
+**Commented-Out Code**: delete it. Use source control (Git) to bring back old code if needed.
 
 ```ts
 // Bad: clutters the file
@@ -385,7 +385,7 @@ function createUser() {
 }
 ```
 
-**Misleading Comments**: probably the worst kind. They confuse the reader:
+**Misleading Comments**: probably the worst kind. They confuse the reader.
 
 ```ts
 // Bad: is this logging in or creating a user?
@@ -405,7 +405,7 @@ While most comments are bad, a few types are acceptable:
 // Licensed under MIT
 ```
 
-**Required Explanations**: when good naming isn't enough, especially for regex:
+**Required Explanations**: when good naming isn't enough, especially for regex.
 
 ```ts
 // Min. 8 characters, at least: one letter, one number, one special character
@@ -421,7 +421,7 @@ function fetchTestData(): void {
 }
 ```
 
-**Todo Notes**: acceptable in moderation:
+**Todo Notes**: acceptable in moderation.
 
 ```ts
 function login(email: string, password: string): void {
@@ -436,7 +436,7 @@ function login(email: string, password: string): void {
 
 Code should be readable like an essay, top to bottom, without too many "jumps."
 
-**Add blank lines to separate distinct concepts. Keep related concepts close together.**
+Add blank lines to separate distinct concepts. Keep related concepts close together.
 
 ```ts
 // Bad: no spacing, hard to see where one concept ends and another begins
@@ -878,8 +878,8 @@ function validateUri(uri: string): void {
 
 There are two easy rules that help decide when to extract a function:
 
-1. **Extract code that works on the same functionality / is closely related**
-2. **Extract code that requires more interpretation than the surrounding code**
+1. Extract code that works on the same functionality / is closely related
+2. Extract code that requires more interpretation than the surrounding code
 
 ```ts
 // Before: setAge and setName are related. they both update user data
@@ -913,9 +913,9 @@ function applyUpdate(userData: {
 
 Splitting functions is important, but pointless extractions lead nowhere. Watch for three signals that an extraction doesn't make sense:
 
-1. You're just **renaming the operation**
-2. Finding the new function takes **longer than reading the extracted code**
-3. You **can't come up with a reasonable name** that hasn't already been taken
+1. You're just renaming the operation
+2. Finding the new function takes longer than reading the extracted code
+3. You can't come up with a reasonable name that hasn't already been taken
 
 ```ts
 // Over-extracted: throwError and buildUser just rename existing operations
@@ -1027,7 +1027,7 @@ createSupportChannel("alice@company.com");
 
 ### Avoid Unexpected Side Effects
 
-A side effect is an operation which changes the state of the application (database writes, console output, modifying global variables). Side effects are normal, but they should never be **unexpected**.
+A side effect is an operation which changes the state of the application (database writes, console output, modifying global variables). Side effects are normal, but they should never be unexpected.
 
 ```ts
 // Bad: unexpected side effect: createSession() inside validation
@@ -2063,7 +2063,7 @@ app.saveSettings();
 // Stored: App settings saved
 ```
 
-The dependency is **inverted**: instead of `App` knowing how to connect the database, whoever creates the `App` is responsible for providing a fully configured database.
+The dependency is inverted: instead of `App` knowing how to connect the database, whoever creates the `App` is responsible for providing a fully configured database.
 
 ---
 
@@ -2071,48 +2071,48 @@ The dependency is **inverted**: instead of `App` knowing how to connect the data
 
 ### Naming
 
-- Use **descriptive** and meaningful names
-- **Variables & Properties**: Nouns or short phrases with adjectives
-- **Functions & Methods**: Verbs or short phrases with adjectives
-- **Classes**: Nouns
-- Be as **specific** as necessary and possible
-- Use **yes/no "questions"** for booleans (e.g. `isValid`)
-- Avoid **misleading** names
-- Be **consistent** with your names (e.g. stick to `get...` instead of `fetch...`)
+- Use descriptive and meaningful names
+- Variables & Properties: Nouns or short phrases with adjectives
+- Functions & Methods: Verbs or short phrases with adjectives
+- Classes: Nouns
+- Be as specific as necessary and possible
+- Use yes/no "questions" for booleans (e.g. `isValid`)
+- Avoid misleading names
+- Be consistent with your names (e.g. stick to `get...` instead of `fetch...`)
 
 ### Comments & Formatting
 
-- **Most comments are bad**: avoid them!
-- Acceptable comments: **legal info**, **warnings**, **regex explanations**, **todos**
-- Keep related concepts close together (**vertical density**)
-- Add spacing between unrelated concepts (**vertical distance**)
-- Write code **top to bottom**: called functions below calling functions
-- **Avoid long lines**: break them into multiple lines
-- Use **indentation** to express scope
+- Most comments are bad: avoid them!
+- Acceptable comments: legal info, warnings, regex explanations, todos
+- Keep related concepts close together (vertical density)
+- Add spacing between unrelated concepts (vertical distance)
+- Write code top to bottom: called functions below calling functions
+- Avoid long lines: break them into multiple lines
+- Use indentation to express scope
 
 ### Functions
 
-- **Limit the number of parameters**: less is better! Use objects to group parameters
-- Functions should be **small** and **do one thing**
-- Keep operations **one level of abstraction below** the function name
-- **Avoid mixing levels** of abstraction
-- But: **avoid redundant splitting**. Don't extract just for extraction's sake
-- Stay **DRY** (Don't Repeat Yourself)
-- **Avoid unexpected side effects**
+- Limit the number of parameters: less is better! Use objects to group parameters
+- Functions should be small and do one thing
+- Keep operations one level of abstraction below the function name
+- Avoid mixing levels of abstraction
+- But: avoid redundant splitting. Don't extract just for extraction's sake
+- Stay DRY (Don't Repeat Yourself)
+- Avoid unexpected side effects
 
 ### Control Structures & Errors
 
-- Prefer **positive checks**
-- Avoid **deep nesting**: use **guards** and **early returns**
-- Consider using **polymorphism** and **factory functions**
-- **Extract control structures** into separate functions
-- Use **real errors** (`throw`/`try-catch`) instead of synthetic error objects with `if` checks
-- Avoid **magic numbers & strings**: use constants or enums
+- Prefer positive checks
+- Avoid deep nesting: use guards and early returns
+- Consider using polymorphism and factory functions
+- Extract control structures into separate functions
+- Use real errors (`throw`/`try-catch`) instead of synthetic error objects with `if` checks
+- Avoid magic numbers & strings: use constants or enums
 
 ### Objects & Classes
 
-- Differentiate between **real objects** (public API) and **data containers** (public properties)
-- Build **small classes** focused on a **single responsibility**
-- Aim for **high cohesion**: methods should use class properties
-- Follow the **Law of Demeter**: avoid chaining through strangers
-- Follow the **SOLID principles**, especially **SRP** and **OCP**
+- Differentiate between real objects (public API) and data containers (public properties)
+- Build small classes focused on a single responsibility
+- Aim for high cohesion: methods should use class properties
+- Follow the Law of Demeter: avoid chaining through strangers
+- Follow the SOLID principles, especially SRP and OCP
