@@ -52,12 +52,24 @@ Naming things (variables, properties, functions, methods, classes) correctly and
 Well-named "things" allow readers to understand your code without going through it in detail.
 
 ```ts
+class User {
+  name = "Alice";
+}
+const database = {
+  insert(user: User) {
+    console.log("Inserted:", user.name);
+  },
+};
+
 const user = new User();
 database.insert(user);
+// Inserted: Alice
 
+const isLoggedIn = true;
 if (isLoggedIn) {
-  // ...
+  console.log("User is logged in");
 }
+// User is logged in
 ```
 
 To understand the above code, we don't need to go through the full class or function definitions. The names do all the heavy lifting.
@@ -93,6 +105,10 @@ const isLoggedIn = true;
 ```
 
 ```ts
+function fetchFromDatabase(table: string, id: string) {
+  return { id, table, name: "Widget" };
+}
+
 // Bad: too generic, could be anything
 const data = { name: "Alice", age: 28 };
 const item = fetchFromDatabase("products", "p1");
@@ -100,6 +116,11 @@ const item = fetchFromDatabase("products", "p1");
 // Good: specific, immediately understandable
 const customer = { name: "Alice", age: 28 };
 const product = fetchFromDatabase("products", "p1");
+
+console.log(customer);
+// { name: 'Alice', age: 28 }
+console.log(product);
+// { id: 'p1', table: 'products', name: 'Widget' }
 ```
 
 Be as specific as context allows. Prefer `customer` over `user` if the code is doing customer-specific operations.
@@ -121,6 +142,12 @@ function logMessage(message: string): void {
 ```
 
 ```ts
+const database = {
+  find(table: string, id: string) {
+    return { email: "max@test.com", id };
+  },
+};
+
 // Bad: sounds like a property, not a function
 function email(userId: string): string {
   return database.find("users", userId).email;
@@ -130,11 +157,18 @@ function email(userId: string): string {
 function getEmail(userId: string): string {
   return database.find("users", userId).email;
 }
+
+console.log(getEmail("u1"));
+// max@test.com
 ```
 
 For boolean-returning functions, phrase the name as a yes/no question.
 
 ```ts
+interface User {
+  permissions: string[];
+}
+
 function isValidEmail(email: string): boolean {
   return email.includes("@") && email.includes(".");
 }
@@ -144,9 +178,17 @@ function hasPermission(user: User, action: string): boolean {
 }
 
 // Usage reads like English
+const input = "test@example.com";
 if (isValidEmail(input)) {
-  // ...
+  console.log("Valid email");
 }
+// Valid email
+
+const admin: User = { permissions: ["read", "write", "delete"] };
+console.log(hasPermission(admin, "write"));
+// true
+console.log(hasPermission(admin, "deploy"));
+// false
 ```
 
 ### Naming Classes
@@ -170,16 +212,31 @@ class SQLDatabase {}
 ### Avoid Redundant Information
 
 ```ts
+class User {
+  constructor(
+    public name: string,
+    public age: number,
+  ) {}
+}
+
 // Bad: we already know a User has a name and age
 const userWithNameAndAge = new User("Max", 31);
 
 // Good: concise and clear
 const user = new User("Max", 31);
+console.log(user);
+// User { name: 'Max', age: 31 }
 ```
 
 ### Avoid Slang, Abbreviations & Disinformation
 
 ```ts
+const accounts = [
+  { name: "Alice", active: true },
+  { name: "Bob", active: false },
+  { name: "Charlie", active: true },
+];
+
 // Bad: slang, abbreviation, disinformation
 const ymdt = "20210121CET";
 const userList = { u1: "Alice", u2: "Bob" }; // not a list, it's an object
@@ -189,6 +246,9 @@ const allAccounts = accounts.filter((a) => a.active);
 const dateWithTimezone = "20210121CET";
 const userMap = { u1: "Alice", u2: "Bob" };
 const activeAccounts = accounts.filter((a) => a.active);
+
+console.log(activeAccounts);
+// [ { name: 'Alice', active: true }, { name: 'Charlie', active: true } ]
 ```
 
 ### Be Consistent
@@ -196,6 +256,10 @@ const activeAccounts = accounts.filter((a) => a.active);
 If you used `fetchUsers()` in one part of your code, use `fetchProducts()` (not `getProducts()`) in another part. Pick one convention and stick with it throughout the entire codebase.
 
 ```ts
+type User = { name: string };
+type Product = { title: string };
+type Order = { id: string };
+
 // Inconsistent: mixing "get", "fetch", "retrieve"
 function getUsers(): User[] {
   /* ... */ return [];
@@ -211,48 +275,56 @@ function retrieveOrders(): Order[] {
 function fetchUsers(): User[] {
   /* ... */ return [];
 }
-function fetchProducts(): Product[] {
-  /* ... */ return [];
-}
 function fetchOrders(): Order[] {
   /* ... */ return [];
 }
+
+console.log(fetchUsers());
+// []
+console.log(fetchOrders());
+// []
 ```
 
 ### Choose Distinctive Names
 
 ```ts
 // Bad: methods sound too similar, hard to tell apart
-class Analytics {
+class AnalyticsBad {
   getDailyData(day: string) {
-    /* ... */
+    return `data-${day}`;
   }
   getDayData() {
-    /* ... */
+    return "today-data";
   }
   getRawDailyData(day: string) {
-    /* ... */
+    return `raw-${day}`;
   }
   getParsedDailyData(day: string) {
-    /* ... */
+    return `parsed-${day}`;
   }
 }
 
 // Good: each method is clearly distinct
 class Analytics {
   getDailyReport(day: string) {
-    /* ... */
+    return `report-${day}`;
   }
   getDataForToday() {
-    /* ... */
+    return "today-report";
   }
   getRawDailyData(day: string) {
-    /* ... */
+    return `raw-${day}`;
   }
   getParsedDailyData(day: string) {
-    /* ... */
+    return `parsed-${day}`;
   }
 }
+
+const analytics = new Analytics();
+console.log(analytics.getDailyReport("2026-06-18"));
+// report-2026-06-18
+console.log(analytics.getDataForToday());
+// today-report
 ```
 
 ### Naming Demo
@@ -437,6 +509,29 @@ Code should be readable like an essay, top to bottom, without too many "jumps."
 Add blank lines to separate distinct concepts. Keep related concepts close together.
 
 ```ts
+class User {
+  password: string;
+  constructor(
+    public email: string,
+    password: string,
+  ) {
+    this.password = password;
+  }
+  saveToDatabase(): void {
+    console.log("Saved user:", this.email);
+  }
+}
+
+function findUserByEmail(email: string) {
+  return { password: "hashed_secret", email };
+}
+function compareEncryptedPassword(stored: string, input: string): boolean {
+  return stored === "hashed_secret";
+}
+function createSession(): void {
+  console.log("Session created");
+}
+
 // Bad: no spacing, hard to see where one concept ends and another begins
 function login(email: string, password: string): void {
   if (!email.includes("@") || password.length < 7) {
@@ -457,6 +552,11 @@ function signup(email: string, password: string): void {
   const user = new User(email, password);
   user.saveToDatabase();
 }
+
+login("max@test.com", "secret123");
+// Session created
+signup("alice@test.com", "password1");
+// Saved user: alice@test.com
 ```
 
 ```ts
@@ -484,6 +584,11 @@ function signup(email: string, password: string): void {
   const user = new User(email, password);
   user.saveToDatabase();
 }
+
+login("max@test.com", "secret123");
+// Session created
+signup("alice@test.com", "password1");
+// Saved user: alice@test.com
 ```
 
 The extra blank lines separate validation from the core logic and separate the two functions. Related lines (like creating a user and saving it) stay together.
@@ -491,6 +596,12 @@ The extra blank lines separate validation from the core logic and separate the t
 **Stepdown Rule**: a function A called by function B should be placed closely below function B:
 
 ```ts
+const database = {
+  insert(table: string, data: any) {
+    console.log(`Inserted into ${table}:`, data);
+  },
+};
+
 // Good: reads top to bottom like a story
 function processSignup(email: string, password: string): void {
   validateInput(email, password);
@@ -511,6 +622,9 @@ function saveUser(email: string, password: string): void {
 function generateId(): string {
   return Math.random().toString(36).substring(2, 10);
 }
+
+processSignup("max@test.com", "secret123");
+// Inserted into users: { email: 'max@test.com', password: 'secret123', id: '...' }
 ```
 
 ### Horizontal Formatting
@@ -518,31 +632,55 @@ function generateId(): string {
 Lines should be readable without scrolling. Break long lines into multiple shorter ones.
 
 ```ts
+function login(email: string, password: string) {
+  console.log(`Logged in as ${email}`);
+  return { email };
+}
+function getValidatedEmail() {
+  return "default@test.com";
+}
+function getValidatedPassword() {
+  return "default123";
+}
+
 // Bad: too much logic crammed into one line
+let email: string | undefined = undefined;
+let password: string | undefined = undefined;
 const loggedInUser =
   email && password
     ? login(email, password)
     : login(getValidatedEmail(), getValidatedPassword());
+// Logged in as default@test.com
 
 // Good: same logic, but readable
-if (!email || !password) {
-  email = getValidatedEmail();
-  password = getValidatedPassword();
+let email2: string | undefined = "max@test.com";
+let password2: string | undefined = "secret123";
+if (!email2 || !password2) {
+  email2 = getValidatedEmail();
+  password2 = getValidatedPassword();
 }
-const loggedInUser = login(email, password);
+const loggedInUser2 = login(email2, password2);
+// Logged in as max@test.com
 ```
 
 Avoid overly long names that waste horizontal space:
 
 ```ts
+function login(email: string, password: string) {
+  console.log(`Logged in as ${email}`);
+  return { email };
+}
+
 // Bad: unnecessarily verbose
 const loggedInUserAuthenticatedByEmailAndPassword = login(
   "test@test.com",
   "secret",
 );
+// Logged in as test@test.com
 
 // Good: concise but descriptive
 const authenticatedUser = login("test@test.com", "secret");
+// Logged in as test@test.com
 ```
 
 ---
@@ -797,6 +935,17 @@ function renderContent(renderInfo: {
   const template = openingTag + renderInfo.content + closingTag;
   renderInfo.root.innerHTML = template;
 }
+
+// Usage
+const root = { innerHTML: "" };
+renderContent({
+  element: "p",
+  attributes: [{ name: "class", value: "highlight" }],
+  content: "Hello World",
+  root,
+});
+console.log(root.innerHTML);
+// <p class="highlight">Hello World</p>
 ```
 
 ```ts
@@ -848,8 +997,18 @@ console.log(root.innerHTML);
 High-level operations abstract away details. Low-level operations deal with specifics. Don't mix them.
 
 ```ts
+class Database {
+  private uri: string;
+  constructor(uri: string) {
+    this.uri = uri;
+  }
+  connect(): void {
+    console.log("Connected to:", this.uri);
+  }
+}
+
 // Bad: mixed levels of abstraction
-function connectToDatabase(uri: string): void {
+function connectToDatabaseBad(uri: string): void {
   if (uri === "") {
     console.log("Invalid URI!");
     return;
@@ -870,6 +1029,9 @@ function validateUri(uri: string): void {
     throw new Error("An URI is required!");
   }
 }
+
+connectToDatabase("localhost:5432");
+// Connected to: localhost:5432
 ```
 
 ### Rules Of Thumb For When To Split
@@ -880,8 +1042,34 @@ There are two easy rules that help decide when to extract a function:
 2. Extract code that requires more interpretation than the surrounding code
 
 ```ts
+function validateUserData(data: {
+  id: string;
+  age: number;
+  name: string;
+}): void {
+  if (!data.id || !data.name) throw new Error("Invalid data");
+}
+
+function findUserById(id: string) {
+  return {
+    setAge(age: number) {
+      console.log("Set age:", age);
+    },
+    setName(name: string) {
+      console.log("Set name:", name);
+    },
+    save() {
+      console.log("User saved");
+    },
+  };
+}
+
 // Before: setAge and setName are related. they both update user data
-function updateUser(userData: { id: string; age: number; name: string }): void {
+function updateUserBefore(userData: {
+  id: string;
+  age: number;
+  name: string;
+}): void {
   validateUserData(userData);
   const user = findUserById(userData.id);
   user.setAge(userData.age);
@@ -905,6 +1093,11 @@ function applyUpdate(userData: {
   user.setName(userData.name);
   user.save();
 }
+
+updateUser({ id: "u1", age: 31, name: "Max" });
+// Set age: 31
+// Set name: Max
+// User saved
 ```
 
 ### Don't Overdo It: Avoid Useless Extractions
@@ -1028,8 +1221,12 @@ createSupportChannel("alice@company.com");
 A side effect is an operation which changes the state of the application (database writes, console output, modifying global variables). Side effects are normal, but they should never be unexpected.
 
 ```ts
+function createSession(): void {
+  console.log("Session created");
+}
+
 // Bad: unexpected side effect: createSession() inside validation
-function validateUserInput(email: string, password: string): void {
+function validateUserInputBad(email: string, password: string): void {
   if (!email.includes("@") || password.length < 7) {
     throw new Error("Invalid input!");
   }
@@ -1047,6 +1244,9 @@ function validateUserInput(email: string, password: string): void {
     throw new Error("Invalid input!");
   }
 }
+
+login("max@test.com", "secret123");
+// Session created
 ```
 
 **Pure vs Impure Functions:**
@@ -1109,9 +1309,12 @@ function isEmpty(value: string): boolean {
   return !value || value.trim() === "";
 }
 
+const blogContent = "";
+
 if (isEmpty(blogContent)) {
-  throw new Error("No content provided!");
+  console.log("Error: No content provided!");
 }
+// Error: No content provided!
 
 // Slightly worse: "!" requires extra mental parsing
 function hasContent(value: string): boolean {
@@ -1119,22 +1322,41 @@ function hasContent(value: string): boolean {
 }
 
 if (!hasContent(blogContent)) {
-  throw new Error("No content provided!");
+  console.log("Error: No content provided! (via hasContent)");
 }
+// Error: No content provided! (via hasContent)
 ```
 
 But sometimes negative checks are simpler, especially when multiple states exist:
 
 ```ts
+type TransactionStatus = "OPEN" | "CLOSED" | "UNKNOWN" | "PENDING";
+const transaction = { status: "CLOSED" as TransactionStatus };
+
+function isOpen(t: { status: string }): boolean {
+  return t.status === "OPEN";
+}
+function isClosed(t: { status: string }): boolean {
+  return t.status === "CLOSED";
+}
+function isUnknown(t: { status: string }): boolean {
+  return t.status === "UNKNOWN";
+}
+function isPending(t: { status: string }): boolean {
+  return t.status === "PENDING";
+}
+
 // Better with negation: one check instead of many
 if (!isOpen(transaction)) {
-  throw new Error("Transaction is not open!");
+  console.log("Error: Transaction is not open!");
 }
+// Error: Transaction is not open!
 
 // Worse: must enumerate every non-open state
 if (isClosed(transaction) || isUnknown(transaction) || isPending(transaction)) {
-  throw new Error("Transaction is not open!");
+  console.log("Error: Transaction is not open! (via enumeration)");
 }
+// Error: Transaction is not open! (via enumeration)
 ```
 
 ### Avoid Deep Nesting
@@ -1155,6 +1377,12 @@ function messageUser(user: any, message: string): void {
     }
   }
 }
+
+messageUser({ acceptsMessages: true, sendMessage: () => true }, "Hello!");
+// Message sent!
+
+messageUser(null, "Hello!");
+// (returns early, nothing printed)
 ```
 
 ### Use Guards & Fail Fast
@@ -1186,8 +1414,24 @@ messageUser(null, "Hello!");
 Splitting nested control structures into separate functions reduces complexity:
 
 ```ts
+class Database {
+  connectionDetails = { host: "localhost", port: 5432 };
+  fallbackConnection = true;
+  fallbackConnectionDetails = { host: "fallback", port: 5433 };
+  private uri: string;
+
+  constructor(uri: string) {
+    this.uri = uri;
+  }
+
+  connect(): boolean {
+    console.log("Attempting connection to:", this.uri);
+    return this.uri !== "bad-uri";
+  }
+}
+
 // Bad: nested if/else in one function
-function connectDatabase(uri: string): any {
+function connectDatabaseBad(uri: string): any {
   if (!uri) {
     throw new Error("An URI is required!");
   }
@@ -1227,6 +1471,11 @@ function connectFallbackDatabase(db: any): any {
   }
   throw new Error("Could not connect!");
 }
+
+const details = connectDatabase("localhost:5432");
+console.log("Connected:", details);
+// Attempting connection to: localhost:5432
+// Connected: { host: 'localhost', port: 5432 }
 ```
 
 ### Embrace Errors & Error Handling
@@ -1389,13 +1638,17 @@ The factory function `getTransactionProcessors()` runs the method check once ins
 Hard-coded values like `"PAYPAL"` or `"CREDIT_CARD"` scattered throughout code are error-prone (typos!) and hard to change. Use constants or enums:
 
 ```ts
+const transaction = { method: "CREDIT_CARD", type: "PAYMENT" };
+
 // Bad: magic strings everywhere
 if (transaction.method === "CREDIT_CARD") {
-  /* ... */
+  console.log("Credit card detected");
 }
 if (transaction.type === "PAYMENT") {
-  /* ... */
+  console.log("Payment detected");
 }
+// Credit card detected
+// Payment detected
 
 // Good: constants defined once, reused everywhere
 const PAYMENT_METHOD = {
@@ -1410,16 +1663,20 @@ const TRANSACTION_TYPE = {
 } as const;
 
 if (transaction.method === PAYMENT_METHOD.CREDIT_CARD) {
-  /* ... */
+  console.log("Credit card (via constant)");
 }
 if (transaction.type === TRANSACTION_TYPE.PAYMENT) {
-  /* ... */
+  console.log("Payment (via constant)");
 }
+// Credit card (via constant)
+// Payment (via constant)
 ```
 
 With TypeScript, you can also use `enum`:
 
 ```ts
+const transaction = { method: "CREDIT_CARD", type: "PAYMENT" };
+
 enum PaymentMethod {
   CreditCard = "CREDIT_CARD",
   PayPal = "PAYPAL",
@@ -1432,11 +1689,13 @@ enum TransactionType {
 }
 
 if (transaction.method === PaymentMethod.CreditCard) {
-  /* ... */
+  console.log("Credit card (via enum)");
 }
 if (transaction.type === TransactionType.Payment) {
-  /* ... */
+  console.log("Payment (via enum)");
 }
+// Credit card (via enum)
+// Payment (via enum)
 ```
 
 ---
