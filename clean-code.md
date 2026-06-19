@@ -19,7 +19,7 @@
 
 ## What Is Clean Code?
 
-Clean code is code that is easy to read, understand, and maintain. It's not about whether code works — a vast majority of development time is spent reading and understanding code, not writing it. Clean code should be readable and meaningful, avoid unintuitive names, complex nesting, and big code blocks, reduce cognitive load, and be concise and "to the point." Clean code is written over time through continuous refactoring and improvement.
+Clean code is code that is easy to read, understand, and maintain. It's not about whether code works. A vast majority of development time is spent reading and understanding code, not writing it. Clean code should be readable and meaningful, avoid unintuitive names, complex nesting, and big code blocks, reduce cognitive load, and be concise and "to the point." Clean code is written over time through continuous refactoring and improvement.
 
 ### Clean Code vs Clean Architecture
 
@@ -85,21 +85,21 @@ To understand the above code, we don't need to go through the full class or func
 The name should imply which kind of data is being stored. For objects, use descriptive nouns. For booleans, answer a true/false question.
 
 ```ts
-// Bad — what does "d" or "val" contain?
+// Bad: what does "d" or "val" contain?
 const d = new Date();
 const val = true;
 
-// Good — descriptive, value type is clear
+// Good: descriptive, value type is clear
 const currentDate = new Date();
 const isLoggedIn = true;
 ```
 
 ```ts
-// Bad — too generic, could be anything
+// Bad: too generic, could be anything
 const data = { name: "Alice", age: 28 };
 const item = fetchFromDatabase("products", "p1");
 
-// Good — specific, immediately understandable
+// Good: specific, immediately understandable
 const customer = { name: "Alice", age: 28 };
 const product = fetchFromDatabase("products", "p1");
 ```
@@ -108,27 +108,27 @@ Be as specific as context allows. Prefer `customer` over `user` if the code is d
 
 ### Naming Functions & Methods
 
-Functions perform tasks — their names should describe what they do. Use verbs.
+Functions perform tasks, so their names should describe what they do. Use verbs.
 
 ```ts
-// Bad — unclear what "process" or "handle" does
+// Bad: unclear what "process" or "handle" does
 function process(data: string): void {
   console.log(data);
 }
 
-// Good — intent is immediately clear
+// Good: intent is immediately clear
 function logMessage(message: string): void {
   console.log(message);
 }
 ```
 
 ```ts
-// Bad — sounds like a property, not a function
+// Bad: sounds like a property, not a function
 function email(userId: string): string {
   return database.find("users", userId).email;
 }
 
-// Good — verb phrase makes the action obvious
+// Good: verb phrase makes the action obvious
 function getEmail(userId: string): string {
   return database.find("users", userId).email;
 }
@@ -156,14 +156,14 @@ if (isValidEmail(input)) {
 Class names should describe the kind of object it will create. Use nouns and avoid redundant suffixes.
 
 ```ts
-// Bad — "UEntity" and "ObjA" are meaningless
+// Bad: "UEntity" and "ObjA" are meaningless
 class UEntity {}
 class ObjA {}
 
-// Okay but redundant — "Obj" adds no information
+// Okay but redundant: "Obj" adds no information
 class UserObj {}
 
-// Good — clean, descriptive nouns
+// Good: clean, descriptive nouns
 class User {}
 class Admin {}
 class SQLDatabase {}
@@ -172,22 +172,22 @@ class SQLDatabase {}
 ### Avoid Redundant Information
 
 ```ts
-// Bad — we already know a User has a name and age
+// Bad: we already know a User has a name and age
 const userWithNameAndAge = new User("Max", 31);
 
-// Good — concise and clear
+// Good: concise and clear
 const user = new User("Max", 31);
 ```
 
 ### Avoid Slang, Abbreviations & Disinformation
 
 ```ts
-// Bad — slang, abbreviation, disinformation
+// Bad: slang, abbreviation, disinformation
 const ymdt = "20210121CET";
 const userList = { u1: "Alice", u2: "Bob" }; // not a list, it's an object
 const allAccounts = accounts.filter((a) => a.active);
 
-// Good — clear, accurate, descriptive
+// Good: clear, accurate, descriptive
 const dateWithTimezone = "20210121CET";
 const userMap = { u1: "Alice", u2: "Bob" };
 const activeAccounts = accounts.filter((a) => a.active);
@@ -195,10 +195,10 @@ const activeAccounts = accounts.filter((a) => a.active);
 
 ### Be Consistent
 
-If you used `fetchUsers()` in one part of your code, use `fetchProducts()` — not `getProducts()` — in another part. Pick one convention and stick with it throughout the entire codebase.
+If you used `fetchUsers()` in one part of your code, use `fetchProducts()` (not `getProducts()`) in another part. Pick one convention and stick with it throughout the entire codebase.
 
 ```ts
-// Inconsistent — mixing "get", "fetch", "retrieve"
+// Inconsistent: mixing "get", "fetch", "retrieve"
 function getUsers(): User[] {
   /* ... */ return [];
 }
@@ -209,7 +209,7 @@ function retrieveOrders(): Order[] {
   /* ... */ return [];
 }
 
-// Consistent — always use the same verb
+// Consistent: always use the same verb
 function fetchUsers(): User[] {
   /* ... */ return [];
 }
@@ -224,7 +224,7 @@ function fetchOrders(): Order[] {
 ### Choose Distinctive Names
 
 ```ts
-// Bad — methods sound too similar, hard to tell apart
+// Bad: methods sound too similar, hard to tell apart
 class Analytics {
   getDailyData(day: string) {
     /* ... */
@@ -240,7 +240,7 @@ class Analytics {
   }
 }
 
-// Good — each method is clearly distinct
+// Good: each method is clearly distinct
 class Analytics {
   getDailyReport(day: string) {
     /* ... */
@@ -260,7 +260,7 @@ class Analytics {
 ### Naming Demo: Bad → Better → Clean
 
 ```ts
-// Bad — cryptic names, abbreviations, unclear intent
+// Bad: cryptic names, abbreviations, unclear intent
 class Entity {
   title: string;
   desc: string;
@@ -290,7 +290,7 @@ output(item);
 `Entity`, `desc`, `ymdhm`, `output`, and `item` are all vague. Let's improve:
 
 ```ts
-// Clean — descriptive names, clear intent
+// Clean: descriptive names, clear intent
 class BlogPost {
   title: string;
   description: string;
@@ -330,10 +330,10 @@ You might think comments help with code readability. In reality, the opposite is
 
 There are several kinds of bad comments you should avoid:
 
-**Dividers & Markers** — redundant if your code uses proper names:
+**Dividers & Markers**: redundant if your code uses proper names:
 
 ```ts
-// Bad — dividers clutter the file and stop reading flow
+// Bad: dividers clutter the file and stop reading flow
 // !!!!!!!!!
 // CLASSES
 // !!!!!!!!!
@@ -344,7 +344,7 @@ class Product {
   update() {}
 }
 
-// Good — clean names make dividers unnecessary
+// Good: clean names make dividers unnecessary
 class User {
   save() {}
 }
@@ -354,24 +354,24 @@ class Product {
 }
 ```
 
-**Redundant Information** — restating what the code already says:
+**Redundant Information**: restating what the code already says:
 
 ```ts
-// Bad — the comment adds nothing the name doesn't already say
+// Bad: the comment adds nothing the name doesn't already say
 function createUser() {
   // creating a new user
 }
 
-// Good — the function name speaks for itself
+// Good: the function name speaks for itself
 function createUser() {
   // ...
 }
 ```
 
-**Commented-Out Code** — delete it. Use source control (Git) to bring back old code if needed:
+**Commented-Out Code**: delete it. Use source control (Git) to bring back old code if needed:
 
 ```ts
-// Bad — clutters the file
+// Bad: clutters the file
 function createUser() {
   // ...
 }
@@ -379,16 +379,16 @@ function createUser() {
 //   ...
 // }
 
-// Good — remove it, Git has the history
+// Good: remove it, Git has the history
 function createUser() {
   // ...
 }
 ```
 
-**Misleading Comments** — probably the worst kind. They confuse the reader:
+**Misleading Comments**: probably the worst kind. They confuse the reader:
 
 ```ts
-// Bad — is this logging in or creating a user?
+// Bad: is this logging in or creating a user?
 function login() {
   // create a new user
 }
@@ -405,7 +405,7 @@ While most comments are bad, a few types are acceptable:
 // Licensed under MIT
 ```
 
-**Required Explanations** — when good naming isn't enough, especially for regex:
+**Required Explanations**: when good naming isn't enough, especially for regex:
 
 ```ts
 // Min. 8 characters, at least: one letter, one number, one special character
@@ -421,7 +421,7 @@ function fetchTestData(): void {
 }
 ```
 
-**Todo Notes** — acceptable in moderation:
+**Todo Notes**: acceptable in moderation:
 
 ```ts
 function login(email: string, password: string): void {
@@ -434,12 +434,12 @@ function login(email: string, password: string): void {
 
 ### Vertical Formatting
 
-Code should be readable like an essay — top to bottom, without too many "jumps."
+Code should be readable like an essay, top to bottom, without too many "jumps."
 
 **Add blank lines to separate distinct concepts. Keep related concepts close together.**
 
 ```ts
-// Bad — no spacing, hard to see where one concept ends and another begins
+// Bad: no spacing, hard to see where one concept ends and another begins
 function login(email: string, password: string): void {
   if (!email.includes("@") || password.length < 7) {
     throw new Error("Invalid input!");
@@ -462,7 +462,7 @@ function signup(email: string, password: string): void {
 ```
 
 ```ts
-// Good — blank lines separate concepts, related code stays together
+// Good: blank lines separate concepts, related code stays together
 function login(email: string, password: string): void {
   if (!email.includes("@") || password.length < 7) {
     throw new Error("Invalid input!");
@@ -490,10 +490,10 @@ function signup(email: string, password: string): void {
 
 The extra blank lines separate validation from the core logic and separate the two functions. Related lines (like creating a user and saving it) stay together.
 
-**Stepdown Rule** — a function A called by function B should be placed closely below function B:
+**Stepdown Rule**: a function A called by function B should be placed closely below function B:
 
 ```ts
-// Good — reads top to bottom like a story
+// Good: reads top to bottom like a story
 function processSignup(email: string, password: string): void {
   validateInput(email, password);
   saveUser(email, password);
@@ -520,13 +520,13 @@ function generateId(): string {
 Lines should be readable without scrolling. Break long lines into multiple shorter ones.
 
 ```ts
-// Bad — too much logic crammed into one line
+// Bad: too much logic crammed into one line
 const loggedInUser =
   email && password
     ? login(email, password)
     : login(getValidatedEmail(), getValidatedPassword());
 
-// Good — same logic, but readable
+// Good: same logic, but readable
 if (!email || !password) {
   email = getValidatedEmail();
   password = getValidatedPassword();
@@ -537,13 +537,13 @@ const loggedInUser = login(email, password);
 Avoid overly long names that waste horizontal space:
 
 ```ts
-// Bad — unnecessarily verbose
+// Bad: unnecessarily verbose
 const loggedInUserAuthenticatedByEmailAndPassword = login(
   "test@test.com",
   "secret",
 );
 
-// Good — concise but descriptive
+// Good: concise but descriptive
 const authenticatedUser = login("test@test.com", "secret");
 ```
 
@@ -591,7 +591,7 @@ user.save();
 // Saving user test@test.com to database...
 ```
 
-`user.save()` requires no arguments — it uses the object's own data.
+`user.save()` requires no arguments. It uses the object's own data.
 
 ### One Parameter
 
@@ -643,10 +643,10 @@ console.log(point);
 // Point { x: 10, y: 13 }
 ```
 
-But avoid two-parameter functions where a boolean flag splits behavior — split into two functions instead:
+But avoid two-parameter functions where a boolean flag splits behavior. Split into two functions instead:
 
 ```ts
-// Bad — boolean flag hides the function's true behavior
+// Bad: boolean flag hides the function's true behavior
 function log(message: string, isError: boolean): void {
   if (isError) {
     console.error(message);
@@ -656,7 +656,7 @@ function log(message: string, isError: boolean): void {
 }
 log("Hi there!", false); // unclear what "false" means
 
-// Good — separate functions, each does one thing
+// Good: separate functions, each does one thing
 function logMessage(message: string): void {
   console.log(message);
 }
@@ -674,7 +674,7 @@ logError("An error!");
 When too many parameters are required, group them into an object:
 
 ```ts
-// Bad — hard to remember order, hard to read at call site
+// Bad: hard to remember order, hard to read at call site
 class User {
   name: string;
   age: number;
@@ -691,7 +691,7 @@ const user1 = new User("Max", 31, "max@test.com"); // which is age, which is ema
 ```
 
 ```ts
-// Good — an object parameter makes the call site self-documenting
+// Good: an object parameter makes the call site self-documenting
 interface UserData {
   name: string;
   age: number;
@@ -739,7 +739,7 @@ console.log(sumUp(10, 19, -3, 22, 5, 100));
 Output parameters (modifying an argument passed to a function) can be unexpected. Prefer methods on objects:
 
 ```ts
-// Bad — user is modified as a side effect, not obvious from the call
+// Bad: user is modified as a side effect, not obvious from the call
 function addId(user: { name: string; id?: string }): void {
   user.id = "u1";
 }
@@ -749,7 +749,7 @@ addId(user);
 console.log(user);
 // { name: 'Max', id: 'u1' }
 
-// Good — modification is obvious because it's on the object itself
+// Good: modification is obvious because it's on the object itself
 class User {
   name: string;
   id?: string;
@@ -774,7 +774,7 @@ console.log(customer);
 A function does "one thing" when all operations in the function body are on the same level of abstraction and one level below the function name.
 
 ```ts
-// Bad — this function does too many things at mixed abstraction levels
+// Bad: this function does too many things at mixed abstraction levels
 function renderContent(renderInfo: {
   element: string;
   attributes: { name: string; value: string }[];
@@ -802,7 +802,7 @@ function renderContent(renderInfo: {
 ```
 
 ```ts
-// Good — each function does one thing at one level of abstraction
+// Good: each function does one thing at one level of abstraction
 function renderContent(renderInfo: {
   element: string;
   attributes: { name: string; value: string }[];
@@ -850,7 +850,7 @@ console.log(root.innerHTML);
 High-level operations abstract away details. Low-level operations deal with specifics. Don't mix them.
 
 ```ts
-// Bad — mixed levels of abstraction
+// Bad: mixed levels of abstraction
 function connectToDatabase(uri: string): void {
   if (uri === "") {
     console.log("Invalid URI!");
@@ -860,7 +860,7 @@ function connectToDatabase(uri: string): void {
   db.connect();
 }
 
-// Good — all operations at the same (high) level
+// Good: all operations at the same (high) level
 function connectToDatabase(uri: string): void {
   validateUri(uri);
   const db = new Database(uri);
@@ -882,7 +882,7 @@ There are two easy rules that help decide when to extract a function:
 2. **Extract code that requires more interpretation than the surrounding code**
 
 ```ts
-// Before: setAge and setName are related — they both update user data
+// Before: setAge and setName are related. they both update user data
 function updateUser(userData: { id: string; age: number; name: string }): void {
   validateUserData(userData);
   const user = findUserById(userData.id);
@@ -909,7 +909,7 @@ function applyUpdate(userData: {
 }
 ```
 
-### Don't Overdo It — Avoid Useless Extractions
+### Don't Overdo It: Avoid Useless Extractions
 
 Splitting functions is important, but pointless extractions lead nowhere. Watch for three signals that an extraction doesn't make sense:
 
@@ -918,7 +918,7 @@ Splitting functions is important, but pointless extractions lead nowhere. Watch 
 3. You **can't come up with a reasonable name** that hasn't already been taken
 
 ```ts
-// Over-extracted — throwError and buildUser just rename existing operations
+// Over-extracted: throwError and buildUser just rename existing operations
 function createUser(email: string, password: string): void {
   validateInput(email, password);
   saveUser(email, password);
@@ -937,7 +937,7 @@ function buildUser(
 ```
 
 ```ts
-// Reasonable — each function does meaningful work
+// Reasonable: each function does meaningful work
 function createUser(email: string, password: string): void {
   validateInput(email, password);
   saveUser(email, password);
@@ -970,12 +970,12 @@ createUser("max@test.com", "secret123");
 // Saving user: { email: 'max@test.com', password: 'secret123', id: '...' }
 ```
 
-### Stay DRY — Don't Repeat Yourself
+### Stay DRY: Don't Repeat Yourself
 
 Signs of code that is "not DRY": you find yourself copy-pasting code, or you need to apply the same change to multiple places.
 
 ```ts
-// DRY — shared validation logic reused across functions
+// DRY: shared validation logic reused across functions
 function createUser(email: string, password: string): void {
   if (!inputIsValid(email, password)) {
     showErrorMessage("Invalid input!");
@@ -986,7 +986,7 @@ function createUser(email: string, password: string): void {
 
 function createSupportChannel(email: string): void {
   if (!isEmail(email)) {
-    showErrorMessage("Invalid email — could not create channel");
+    showErrorMessage("Invalid email. Could not create channel");
     return;
   }
   console.log("Support channel created for:", email);
@@ -1017,7 +1017,7 @@ createUser("max@test.com", "secret");
 // User saved: { email: 'max@test.com', password: 'secret' }
 
 createSupportChannel("invalid");
-// Invalid email — could not create channel
+// Invalid email. Could not create channel
 
 createSupportChannel("alice@company.com");
 // Support channel created for: alice@company.com
@@ -1030,7 +1030,7 @@ createSupportChannel("alice@company.com");
 A side effect is an operation which changes the state of the application (database writes, console output, modifying global variables). Side effects are normal, but they should never be **unexpected**.
 
 ```ts
-// Bad — unexpected side effect: createSession() inside validation
+// Bad: unexpected side effect: createSession() inside validation
 function validateUserInput(email: string, password: string): void {
   if (!email.includes("@") || password.length < 7) {
     throw new Error("Invalid input!");
@@ -1038,7 +1038,7 @@ function validateUserInput(email: string, password: string): void {
   createSession(); // ← side effect hidden in a "validate" function!
 }
 
-// Good — side effects are in functions whose names imply them
+// Good: side effects are in functions whose names imply them
 function login(email: string, password: string): void {
   validateUserInput(email, password);
   createSession(); // ← expected here, because "login" implies state change
@@ -1054,7 +1054,7 @@ function validateUserInput(email: string, password: string): void {
 **Pure vs Impure Functions:**
 
 ```ts
-// Pure — same input always gives the same output, no side effects
+// Pure: same input always gives the same output, no side effects
 function generateId(userName: string): string {
   return "id_" + userName;
 }
@@ -1064,7 +1064,7 @@ console.log(generateId("max"));
 console.log(generateId("max"));
 // id_max (always the same)
 
-// Impure — modifies external state
+// Impure: modifies external state
 let lastAssignedId: string;
 
 function generateIdWithSideEffect(userName: string): string {
@@ -1088,7 +1088,7 @@ function hasMinValue(value: number, minValue: number): boolean {
   return value > minValue;
 }
 
-// Tests (conceptual — works with any testing framework)
+// Tests (conceptual, works with any testing framework)
 console.log(isEmpty("") === true); // true
 console.log(isEmpty("Test") === false); // true
 console.log(hasMinValue(10, 8) === true); // true
@@ -1103,10 +1103,10 @@ Control structures (`if`, `for`, `while`, `switch`) are essential for coordinati
 
 ### Prefer Positive Checks
 
-Use positive wording in `if` checks when possible — it reduces mental overhead:
+Use positive wording in `if` checks when possible. It reduces mental overhead:
 
 ```ts
-// Preferred — reads naturally, no negation needed
+// Preferred: reads naturally, no negation needed
 function isEmpty(value: string): boolean {
   return !value || value.trim() === "";
 }
@@ -1115,7 +1115,7 @@ if (isEmpty(blogContent)) {
   throw new Error("No content provided!");
 }
 
-// Slightly worse — "!" requires extra mental parsing
+// Slightly worse: "!" requires extra mental parsing
 function hasContent(value: string): boolean {
   return !!value && value.trim() !== "";
 }
@@ -1128,12 +1128,12 @@ if (!hasContent(blogContent)) {
 But sometimes negative checks are simpler, especially when multiple states exist:
 
 ```ts
-// Better with negation — one check instead of many
+// Better with negation: one check instead of many
 if (!isOpen(transaction)) {
   throw new Error("Transaction is not open!");
 }
 
-// Worse — must enumerate every non-open state
+// Worse: must enumerate every non-open state
 if (isClosed(transaction) || isUnknown(transaction) || isPending(transaction)) {
   throw new Error("Transaction is not open!");
 }
@@ -1144,7 +1144,7 @@ if (isClosed(transaction) || isUnknown(transaction) || isPending(transaction)) {
 Deeply nested code is extremely hard to read and maintain:
 
 ```ts
-// Bad — deeply nested, hard to follow
+// Bad: deeply nested, hard to follow
 function messageUser(user: any, message: string): void {
   if (user) {
     if (message) {
@@ -1164,7 +1164,7 @@ function messageUser(user: any, message: string): void {
 Guards are `if` checks at the start of functions that exit early if conditions aren't met, flattening the nesting:
 
 ```ts
-// Good — guards at the top, flat code body
+// Good: guards at the top, flat code body
 function messageUser(user: any, message: string): void {
   if (!user || !message || !user.acceptsMessages) {
     return;
@@ -1188,7 +1188,7 @@ messageUser(null, "Hello!");
 Splitting nested control structures into separate functions reduces complexity:
 
 ```ts
-// Bad — nested if/else in one function
+// Bad: nested if/else in one function
 function connectDatabase(uri: string): any {
   if (!uri) {
     throw new Error("An URI is required!");
@@ -1205,7 +1205,7 @@ function connectDatabase(uri: string): any {
   return db.connectionDetails;
 }
 
-// Good — each concern is in its own function
+// Good: each concern is in its own function
 function connectDatabase(uri: string): any {
   validateUri(uri);
   const db = new Database(uri);
@@ -1236,7 +1236,7 @@ function connectFallbackDatabase(db: any): any {
 Errors allow you to utilize mechanisms built into the language to handle problems. They remove the need for extra `if` checks and synthetic error codes.
 
 ```ts
-// Bad — "synthetic" error with code checks
+// Bad: "synthetic" error with code checks
 function validateInput(
   email: string,
   password: string,
@@ -1260,7 +1260,7 @@ createUser("invalid", "123");
 ```
 
 ```ts
-// Good — real errors with try/catch
+// Good: real errors with try/catch
 function validateInput(email: string, password: string): void {
   if (!email.includes("@") || password.length < 7) {
     throw new Error("Invalid input!");
@@ -1272,7 +1272,7 @@ function createUser(email: string, password: string): void {
   console.log("User created:", email);
 }
 
-// Error handling is "one thing" — keep it in a separate function
+// Error handling is "one thing": keep it in a separate function
 function handleSignupRequest(email: string, password: string): void {
   try {
     createUser(email, password);
@@ -1295,7 +1295,7 @@ handleSignupRequest("invalid", "123");
 When you have duplicated `if` checks with slightly different logic inside, use factory functions to produce polymorphic objects:
 
 ```ts
-// Bad — duplicated if checks for payment method
+// Bad: duplicated if checks for payment method
 interface Transaction {
   type: string;
   status: string;
@@ -1321,7 +1321,7 @@ function processTransaction(transaction: Transaction): void {
 ```
 
 ```ts
-// Good — factory function returns a polymorphic processor object
+// Good: factory function returns a polymorphic processor object
 interface Transaction {
   type: string;
   status: string;
@@ -1384,14 +1384,14 @@ processTransaction({
 // Processing PayPal refund: $10.99
 ```
 
-The factory function `getTransactionProcessors()` runs the method check once instead of once per type. The returned object is polymorphic — we always call `processPayment()` or `processRefund()`, but the actual logic depends on the method.
+The factory function `getTransactionProcessors()` runs the method check once instead of once per type. The returned object is polymorphic. We always call `processPayment()` or `processRefund()`, but the actual logic depends on the method.
 
 ### Avoid Magic Numbers & Strings
 
 Hard-coded values like `"PAYPAL"` or `"CREDIT_CARD"` scattered throughout code are error-prone (typos!) and hard to change. Use constants or enums:
 
 ```ts
-// Bad — magic strings everywhere
+// Bad: magic strings everywhere
 if (transaction.method === "CREDIT_CARD") {
   /* ... */
 }
@@ -1399,7 +1399,7 @@ if (transaction.type === "PAYMENT") {
   /* ... */
 }
 
-// Good — constants defined once, reused everywhere
+// Good: constants defined once, reused everywhere
 const PAYMENT_METHOD = {
   CREDIT_CARD: "CREDIT_CARD",
   PAYPAL: "PAYPAL",
@@ -1450,7 +1450,7 @@ Classes are blueprints for objects. When working with classes and objects, we ca
 ### Objects vs Data Containers
 
 ```ts
-// Data Container — holds data, exposes properties publicly
+// Data Container: holds data, exposes properties publicly
 class UserCredentials {
   email: string;
   password: string;
@@ -1467,7 +1467,7 @@ console.log(credentials.email);
 ```
 
 ```ts
-// Real Object — hides data, exposes a public API
+// Real Object: hides data, exposes a public API
 class User {
   private name: string;
   private age: number;
@@ -1494,7 +1494,7 @@ Both are valid types. The key is to use the right kind for the right job and avo
 Use inheritance and polymorphism to eliminate duplicated `if` checks:
 
 ```ts
-// Bad — duplicate checks for deliveryType in every method
+// Bad: duplicate checks for deliveryType in every method
 class Delivery {
   private purchase: any;
 
@@ -1525,7 +1525,7 @@ class Delivery {
 ```
 
 ```ts
-// Good — polymorphism eliminates repeated checks
+// Good: polymorphism eliminates repeated checks
 interface DeliveryHandler {
   deliverProduct(): void;
   trackProduct(): void;
@@ -1569,7 +1569,7 @@ class StandardDelivery extends DeliveryBase implements DeliveryHandler {
   }
 }
 
-// Factory function — the check happens only once
+// Factory function: the check happens only once
 function createDelivery(purchase: {
   deliveryType: string;
   product: string;
@@ -1594,7 +1594,7 @@ delivery.trackProduct();
 A class's size is defined by its number of responsibilities, not its line count. Clean classes should only have one responsibility.
 
 ```ts
-// Bad — one class handles products, customers, orders, and inventory
+// Bad: one class handles products, customers, orders, and inventory
 class OnlineShop {
   addProduct(title: string, price: number): void {}
   updateProduct(productId: string, title: string, price: number): void {}
@@ -1611,7 +1611,7 @@ class OnlineShop {
 ```
 
 ```ts
-// Good — each class has a single responsibility
+// Good: each class has a single responsibility
 class Product {
   constructor(
     public title: string,
@@ -1671,10 +1671,10 @@ class Inventory {
 
 ### Cohesion
 
-Cohesion describes how much a class's methods use the class's properties. High cohesion is good — it means the class is focused. Low cohesion signals that the class might be better split or turned into a data container.
+Cohesion describes how much a class's methods use the class's properties. High cohesion is good because it means the class is focused. Low cohesion signals that the class might be better split or turned into a data container.
 
 ```ts
-// High Cohesion — every method uses the class properties
+// High Cohesion: every method uses the class properties
 class ShoppingCart {
   private items: { name: string; price: number }[] = [];
 
@@ -1705,7 +1705,7 @@ cart.printReceipt();
 // Total: $14.48
 ```
 
-Every method in `ShoppingCart` interacts with the `items` property — that's high cohesion.
+Every method in `ShoppingCart` interacts with the `items` property. That's high cohesion.
 
 ### The Law Of Demeter
 
@@ -1717,7 +1717,7 @@ Don't depend on the internals of "strangers." Code in a method should only acces
 - Objects created in the method
 
 ```ts
-// Bad — chaining through multiple objects violates the Law of Demeter
+// Bad: chaining through multiple objects violates the Law of Demeter
 class Customer {
   lastPurchase = { date: "2026-06-18", product: "Laptop" };
 }
@@ -1741,13 +1741,13 @@ class DeliveryJob {
     this.warehouse = warehouse;
   }
 
-  // Bad — accessing customer.lastPurchase.date (chaining)
+  // Bad: accessing customer.lastPurchase.date (chaining)
   deliverLastPurchaseBad(): void {
     const date = this.customer.lastPurchase.date; // Law of Demeter violation
     this.warehouse.deliverPurchasesByDate(this.customer, date);
   }
 
-  // Good — "tell, don't ask"
+  // Good: "tell, don't ask"
   deliverLastPurchaseGood(): void {
     this.warehouse.deliverPurchase(this.customer.lastPurchase);
   }
@@ -1781,7 +1781,7 @@ SOLID is a set of five object-oriented design principles that lead to smaller, m
 A class should only change for one reason. If it needs to change for multiple reasons, it has too many responsibilities.
 
 ```ts
-// Bad — two reasons to change: report generation AND PDF creation
+// Bad: two reasons to change: report generation AND PDF creation
 class ReportDocument {
   generateReport(data: any): string {
     return `Report: ${JSON.stringify(data)}`;
@@ -1792,7 +1792,7 @@ class ReportDocument {
   }
 }
 
-// Good — each class has one responsibility
+// Good: each class has one responsibility
 class Report {
   generate(data: any): string {
     return `Report: ${JSON.stringify(data)}`;
@@ -1817,7 +1817,7 @@ printer.createPDF(content);
 A class should be open for extension (new subclasses) but closed for modification (existing code doesn't change for new features).
 
 ```ts
-// Bad — adding a new document type requires modifying the class
+// Bad: adding a new document type requires modifying the class
 class Printer {
   printPDF(data: string): void {
     console.log("Printing PDF:", data);
@@ -1833,7 +1833,7 @@ class Printer {
 ```
 
 ```ts
-// Good — extend with new classes, base stays closed
+// Good: extend with new classes, base stays closed
 interface Printer {
   print(data: string): void;
 }
@@ -1860,7 +1860,7 @@ class WebPrinter extends PrinterBase implements Printer {
   }
 }
 
-// Adding Word support? Just add a new class — no existing code changes!
+// Adding Word support? Just add a new class, no existing code changes!
 class WordPrinter extends PrinterBase implements Printer {
   print(data: string): void {
     if (this.verifyData(data)) {
@@ -1885,7 +1885,7 @@ printers.forEach((p) => p.print("Hello World"));
 Objects should be replaceable with instances of their subtypes without altering the behavior of the program.
 
 ```ts
-// Bad — Penguin extends Bird but can't fly
+// Bad: Penguin extends Bird but can't fly
 class Bird {
   fly(): void {
     console.log("Flying...");
@@ -1900,7 +1900,7 @@ class Penguin extends Bird {
 ```
 
 ```ts
-// Good — separate hierarchy for flying vs non-flying birds
+// Good: separate hierarchy for flying vs non-flying birds
 class Bird {
   eat(): void {
     console.log("Eating...");
@@ -1938,14 +1938,14 @@ penguin.swim();
 // Swimming...
 ```
 
-Now, `Eagle` can substitute `FlyingBird`, and `Penguin` can substitute `Bird` — both without breaking behavior.
+Now, `Eagle` can substitute `FlyingBird`, and `Penguin` can substitute `Bird`, both without breaking behavior.
 
 ### I: Interface Segregation Principle
 
 Many client-specific interfaces are better than one general-purpose interface. Don't force classes to implement methods they don't need.
 
 ```ts
-// Bad — InMemoryDatabase is forced to implement connect()
+// Bad: InMemoryDatabase is forced to implement connect()
 interface Database {
   connect(uri: string): void;
   storeData(data: any): void;
@@ -1953,7 +1953,7 @@ interface Database {
 
 class InMemoryDatabase implements Database {
   connect(uri: string): void {
-    // Has nothing to connect to — but forced by the interface!
+    // Has nothing to connect to, but forced by the interface!
   }
 
   storeData(data: any): void {
@@ -1963,7 +1963,7 @@ class InMemoryDatabase implements Database {
 ```
 
 ```ts
-// Good — split into focused interfaces
+// Good: split into focused interfaces
 interface Database {
   storeData(data: any): void;
 }
@@ -2001,10 +2001,10 @@ memDb.storeData({ name: "Alice" });
 
 ### D: Dependency Inversion Principle
 
-Depend on abstractions, not concretions. Don't check for specific types inside consuming code — let the caller handle specifics.
+Depend on abstractions, not concretions. Don't check for specific types inside consuming code. Let the caller handle specifics.
 
 ```ts
-// Bad — App checks whether the database needs connecting
+// Bad: App checks whether the database needs connecting
 class App {
   private database: any;
 
@@ -2022,7 +2022,7 @@ class App {
 ```
 
 ```ts
-// Good — App depends only on the Database abstraction
+// Good: App depends only on the Database abstraction
 interface Database {
   storeData(data: string): void;
 }
@@ -2082,37 +2082,37 @@ The dependency is **inverted**: instead of `App` knowing how to connect the data
 
 ### Comments & Formatting
 
-- **Most comments are bad** — avoid them!
+- **Most comments are bad**: avoid them!
 - Acceptable comments: **legal info**, **warnings**, **regex explanations**, **todos**
 - Keep related concepts close together (**vertical density**)
 - Add spacing between unrelated concepts (**vertical distance**)
-- Write code **top to bottom** — called functions below calling functions
-- **Avoid long lines** — break them into multiple lines
+- Write code **top to bottom**: called functions below calling functions
+- **Avoid long lines**: break them into multiple lines
 - Use **indentation** to express scope
 
 ### Functions
 
-- **Limit the number of parameters** — less is better! Use objects to group parameters
+- **Limit the number of parameters**: less is better! Use objects to group parameters
 - Functions should be **small** and **do one thing**
 - Keep operations **one level of abstraction below** the function name
 - **Avoid mixing levels** of abstraction
-- But: **avoid redundant splitting** — don't extract just for extraction's sake
+- But: **avoid redundant splitting**. Don't extract just for extraction's sake
 - Stay **DRY** (Don't Repeat Yourself)
 - **Avoid unexpected side effects**
 
 ### Control Structures & Errors
 
 - Prefer **positive checks**
-- Avoid **deep nesting** — use **guards** and **early returns**
+- Avoid **deep nesting**: use **guards** and **early returns**
 - Consider using **polymorphism** and **factory functions**
 - **Extract control structures** into separate functions
 - Use **real errors** (`throw`/`try-catch`) instead of synthetic error objects with `if` checks
-- Avoid **magic numbers & strings** — use constants or enums
+- Avoid **magic numbers & strings**: use constants or enums
 
 ### Objects & Classes
 
 - Differentiate between **real objects** (public API) and **data containers** (public properties)
 - Build **small classes** focused on a **single responsibility**
-- Aim for **high cohesion** — methods should use class properties
-- Follow the **Law of Demeter** — avoid chaining through strangers
+- Aim for **high cohesion**: methods should use class properties
+- Follow the **Law of Demeter**: avoid chaining through strangers
 - Follow the **SOLID principles**, especially **SRP** and **OCP**
