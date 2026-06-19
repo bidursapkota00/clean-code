@@ -1779,6 +1779,12 @@ class Delivery {
     }
   }
 }
+
+const badDelivery = new Delivery({ deliveryType: "express", product: "Phone" });
+badDelivery.deliverProduct();
+// Express delivery for: Phone
+badDelivery.trackProduct();
+// Tracking express delivery...
 ```
 
 ```ts
@@ -1853,7 +1859,9 @@ A class's size is defined by its number of responsibilities, not its line count.
 ```ts
 // Bad: one class handles products, customers, orders, and inventory
 class OnlineShop {
-  addProduct(title: string, price: number): void {}
+  addProduct(title: string, price: number): void {
+    console.log("Added:", title);
+  }
   updateProduct(productId: string, title: string, price: number): void {}
   removeProduct(productId: string): void {}
   getAvailableItems(productId: string): void {}
@@ -1865,6 +1873,10 @@ class OnlineShop {
   refund(orderId: string): void {}
   updateCustomerProfile(customerId: string, name: string): void {}
 }
+
+const shop = new OnlineShop();
+shop.addProduct("Book", 10.99);
+// Added: Book
 ```
 
 ```ts
@@ -1924,6 +1936,11 @@ class Inventory {
     console.log("Restocking:", productId);
   }
 }
+
+const inventory = new Inventory();
+inventory.addProduct(new Product("Clean Code Book", 29.99));
+console.log("Inventory has", inventory.getAvailableItems().length, "items.");
+// Inventory has 1 items.
 ```
 
 ### Cohesion
@@ -2075,7 +2092,7 @@ A class should be open for extension (new subclasses) but closed for modificatio
 
 ```ts
 // Bad: adding a new document type requires modifying the class
-class Printer {
+class PrinterBad {
   printPDF(data: string): void {
     console.log("Printing PDF:", data);
   }
@@ -2087,6 +2104,10 @@ class Printer {
   }
   // Adding Word support? Must add a new method here...
 }
+
+const badPrinter = new PrinterBad();
+badPrinter.printPDF("Hello");
+// Printing PDF: Hello
 ```
 
 ```ts
@@ -2143,17 +2164,25 @@ Objects should be replaceable with instances of their subtypes without altering 
 
 ```ts
 // Bad: Penguin extends Bird but can't fly
-class Bird {
+class BirdBad {
   fly(): void {
     console.log("Flying...");
   }
 }
 
-class Penguin extends Bird {
+class PenguinBad extends BirdBad {
   fly(): void {
     throw new Error("Penguins can't fly!"); // ← breaks substitution
   }
 }
+
+const badPenguin = new PenguinBad();
+try {
+  badPenguin.fly();
+} catch (e: any) {
+  console.log("Error:", e.message);
+}
+// Error: Penguins can't fly!
 ```
 
 ```ts
@@ -2203,20 +2232,27 @@ Many client-specific interfaces are better than one general-purpose interface. D
 
 ```ts
 // Bad: InMemoryDatabase is forced to implement connect()
-interface Database {
+interface DatabaseBad {
   connect(uri: string): void;
   storeData(data: any): void;
 }
 
-class InMemoryDatabase implements Database {
+class InMemoryDatabaseBad implements DatabaseBad {
   connect(uri: string): void {
     // Has nothing to connect to, but forced by the interface!
+    console.log("In-memory connects to nothing.");
   }
 
   storeData(data: any): void {
     console.log("Storing data in memory:", data);
   }
 }
+
+const memDbBad = new InMemoryDatabaseBad();
+memDbBad.connect("none");
+// In-memory connects to nothing.
+memDbBad.storeData({ ok: true });
+// Storing data in memory: { ok: true }
 ```
 
 ```ts
@@ -2262,7 +2298,7 @@ Depend on abstractions, not concretions. Don't check for specific types inside c
 
 ```ts
 // Bad: App checks whether the database needs connecting
-class App {
+class AppBad {
   private database: any;
 
   constructor(database: any) {
@@ -2276,6 +2312,20 @@ class App {
     this.database.storeData("Some data");
   }
 }
+
+const dbWithConnect = {
+  connect(url: string) {
+    console.log("Connected to:", url);
+  },
+  storeData(data: any) {
+    console.log("Stored:", data);
+  },
+};
+
+const badApp = new AppBad(dbWithConnect);
+// Connected to: my-url
+badApp.saveSettings();
+// Stored: Some data
 ```
 
 ```ts
