@@ -2447,9 +2447,10 @@ The dependency is inverted: instead of `App` knowing how to connect the database
 - Variables & Properties: Nouns or short phrases with adjectives
 - Functions & Methods: Verbs or short phrases with adjectives
 - Classes: Nouns
-- Be as specific as necessary and possible
+- Be as specific as necessary and possible. Avoid redundant information, slang, abbreviations
+- Avoid disinformation or misleading names
+- Follow name casing
 - Use yes/no "questions" for booleans (e.g. `isValid`)
-- Avoid misleading names
 - Be consistent with your names (e.g. stick to `get...` instead of `fetch...`)
 
 ### Comments & Formatting
@@ -2459,7 +2460,7 @@ The dependency is inverted: instead of `App` knowing how to connect the database
 - Keep related concepts close together (vertical density)
 - Add spacing between unrelated concepts (vertical distance)
 - Write code top to bottom with called functions below calling functions
-- Avoid long lines and break them into multiple lines
+- Avoid long lines and break them into multiple lines (horizontal formatting)
 - Use indentation to express scope
 
 ### Functions
@@ -2471,6 +2472,7 @@ The dependency is inverted: instead of `App` knowing how to connect the database
 - Avoid redundant splitting. Don't extract just for extraction's sake
 - Stay DRY (Don't Repeat Yourself)
 - Avoid unexpected side effects
+- If you can easily test a function in isolation, it's a sign that it's clean
 
 ### Control Structures & Errors
 
