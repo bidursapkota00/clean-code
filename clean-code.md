@@ -1166,6 +1166,35 @@ createUser("max@test.com", "secret123");
 Signs of code that is "not DRY": you find yourself copy-pasting code, or you need to apply the same change to multiple places.
 
 ```ts
+// Not DRY: repeated validation logic across functions
+function createUserBad(email: string, password: string): void {
+  if (!email || !email.includes("@")) {
+    console.log("Invalid email!");
+    return;
+  }
+  if (!password || password.trim() === "") {
+    console.log("Invalid password!");
+    return;
+  }
+  console.log("Saving user:", email);
+}
+
+function createSupportChannelBad(email: string): void {
+  if (!email || !email.includes("@")) {
+    console.log("Invalid email. Could not create channel");
+    return;
+  }
+  console.log("Support channel created for:", email);
+}
+
+createUserBad("bademail", "");
+// Invalid email!
+
+createSupportChannelBad("test@test.com");
+// Support channel created for: test@test.com
+```
+
+```ts
 // DRY: shared validation logic reused across functions
 function createUser(email: string, password: string): void {
   if (!inputIsValid(email, password)) {
@@ -1946,6 +1975,42 @@ console.log("Inventory has", inventory.getAvailableItems().length, "items.");
 ### Cohesion
 
 Cohesion describes how much a class's methods use the class's properties. High cohesion is good because it means the class is focused. Low cohesion signals that the class might be better split or turned into a data container.
+
+```ts
+// Low Cohesion: some methods do not use class properties at all
+class UserDashboard {
+  private username: string;
+
+  constructor(username: string) {
+    this.username = username;
+  }
+
+  // Uses class property
+  showGreeting(): void {
+    console.log(`Welcome, ${this.username}!`);
+  }
+
+  // Does not use any class properties - low cohesion!
+  validateEmail(email: string): boolean {
+    return email.includes("@");
+  }
+
+  // Does not use any class properties - low cohesion!
+  formatDate(date: Date): string {
+    return date.toISOString().split("T")[0];
+  }
+}
+
+const dashboard = new UserDashboard("Max");
+dashboard.showGreeting();
+// Welcome, Max!
+
+console.log(dashboard.validateEmail("max@test.com"));
+// true
+
+console.log(dashboard.formatDate(new Date("2026-06-19T10:00:00Z")));
+// 2026-06-19
+```
 
 ```ts
 // High Cohesion: every method uses the class properties
