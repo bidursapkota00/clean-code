@@ -502,6 +502,41 @@ function login(email: string, password: string): void {
 }
 ```
 
+**Docstrings**: useful for documenting public APIs, libraries, or complex types so IDEs can provide better autocompletion and hints.
+
+```ts
+interface CartItem {
+  name: string;
+  price: number;
+  quantity: number;
+}
+
+/**
+ * Calculates the total price of the items in the cart, applying any valid discounts.
+ * 
+ * @param items - The array of items in the shopping cart.
+ * @param discountCode - An optional discount code to apply.
+ * @returns The final total price.
+ */
+function calculateTotal(items: CartItem[], discountCode?: string): number {
+  let total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  
+  if (discountCode === "SAVE10") {
+    total *= 0.9;
+  }
+  
+  return total;
+}
+
+const cart = [
+  { name: "Laptop", price: 1000, quantity: 1 },
+  { name: "Mouse", price: 50, quantity: 2 }
+];
+
+console.log(calculateTotal(cart, "SAVE10"));
+// 990
+```
+
 ### Vertical Formatting
 
 Code should be readable like an essay, top to bottom, without too many "jumps."
