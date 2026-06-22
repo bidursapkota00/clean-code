@@ -28,6 +28,20 @@ function fetchProducts() {
 }
 ```
 
+Note: Full Constructor in TypeScript
+
+```ts
+class User {
+  public name: string;
+  public age: number;
+
+  constructor(name: string, age: number) {
+    this.name = name;
+    this.age = age;
+  }
+}
+```
+
 **When good naming isn't enough, especially for regex**
 
 ```ts
