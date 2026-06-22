@@ -31,9 +31,8 @@ function fetchProducts() {
 **When good naming isn't enough, especially for regex**
 
 ```ts
-// Min. 8 characters, at least: one letter, one number, one special character
-const passwordRegex =
-  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+// Min. 8 characters, at least: one letter, one number
+const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
 ```
 
 **Avoid functions where a boolean flag splits behavior**
@@ -211,21 +210,47 @@ myDog.makeSound(); // Woof
 
 ```ts
 // Bad: The Driver reaches through the Car to start the Engine.
-class Driver {
-  startVehicle(car: Car): void {
+class Engine {
+  start(): void {
+    console.log("Engine starting...");
+  }
+}
+
+class BadCar {
+  engine = new Engine();
+}
+
+class BadDriver {
+  startVehicle(car: BadCar): void {
     // Violation: Driver shouldn't know that the Car has an Engine!
     car.engine.start();
   }
 }
+
+const badDriver = new BadDriver();
+badDriver.startVehicle(new BadCar());
+// Engine starting...
 ```
 
 ```ts
 // Good: The Driver asks the Car to start. The Car manages its own Engine.
-class Driver {
-  startVehicle(car: Car): void {
+class GoodCar {
+  private engine = new Engine(); // (Assuming Engine class is defined above)
+
+  start(): void {
+    this.engine.start();
+  }
+}
+
+class GoodDriver {
+  startVehicle(car: GoodCar): void {
     car.start();
   }
 }
+
+const goodDriver = new GoodDriver();
+goodDriver.startVehicle(new GoodCar());
+// Engine starting...
 ```
 
 **Avoid unexpected side effects: modifying a global variable**

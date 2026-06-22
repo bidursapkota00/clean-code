@@ -2164,21 +2164,47 @@ A classic violation is "chaining" method calls or property accesses.
 
 ```ts
 // Bad: The Driver reaches through the Car to start the Engine.
-class Driver {
-  startVehicle(car: Car): void {
+class Engine {
+  start(): void {
+    console.log("Engine starting...");
+  }
+}
+
+class BadCar {
+  engine = new Engine();
+}
+
+class BadDriver {
+  startVehicle(car: BadCar): void {
     // Violation: Driver shouldn't know that the Car has an Engine!
     car.engine.start();
   }
 }
+
+const badDriver = new BadDriver();
+badDriver.startVehicle(new BadCar());
+// Engine starting...
 ```
 
 ```ts
 // Good: The Driver asks the Car to start. The Car manages its own Engine.
-class Driver {
-  startVehicle(car: Car): void {
+class GoodCar {
+  private engine = new Engine(); // (Assuming Engine class is defined above)
+
+  start(): void {
+    this.engine.start();
+  }
+}
+
+class GoodDriver {
+  startVehicle(car: GoodCar): void {
     car.start();
   }
 }
+
+const goodDriver = new GoodDriver();
+goodDriver.startVehicle(new GoodCar());
+// Engine starting...
 ```
 
 #### Example 2
