@@ -2181,34 +2181,22 @@ interface Printer {
   print(data: string): void;
 }
 
-class PrinterBase {
-  verifyData(data: string): boolean {
-    return data.length > 0;
+class PDFPrinter implements Printer {
+  print(data: string): void {
+    console.log("Printing PDF:", data);
   }
 }
 
-class PDFPrinter extends PrinterBase implements Printer {
+class WebPrinter implements Printer {
   print(data: string): void {
-    if (this.verifyData(data)) {
-      console.log("Printing PDF:", data);
-    }
-  }
-}
-
-class WebPrinter extends PrinterBase implements Printer {
-  print(data: string): void {
-    if (this.verifyData(data)) {
-      console.log("Printing Web:", data);
-    }
+    console.log("Printing Web:", data);
   }
 }
 
 // Adding Word support? Just add a new class, no existing code changes!
-class WordPrinter extends PrinterBase implements Printer {
+class WordPrinter implements Printer {
   print(data: string): void {
-    if (this.verifyData(data)) {
-      console.log("Printing Word:", data);
-    }
+    console.log("Printing Word:", data);
   }
 }
 
@@ -2362,80 +2350,83 @@ memDb.storeData({ name: "Alice" });
 Depend on abstractions, not concretions. Don't check for specific types inside consuming code. Let the caller handle specifics.
 
 ```ts
-// Bad: App checks whether the database needs connecting
-class AppBad {
-  private database: any;
-
-  constructor(database: any) {
-    if (database.connect) {
-      database.connect("my-url"); // <-- depending on concretion
-    }
-    this.database = database;
-  }
-
-  saveSettings(): void {
-    this.database.storeData("Some data");
+// Bad: NotificationService depends directly on concrete EmailService and SMSService classes
+class EmailServiceBad {
+  sendEmail(message: string): void {
+    console.log("Sending email: " + message);
   }
 }
 
-const dbWithConnect = {
-  connect(url: string) {
-    console.log("Connected to:", url);
-  },
-  storeData(data: any) {
-    console.log("Stored:", data);
-  },
-};
+class SMSServiceBad {
+  sendSMS(message: string): void {
+    console.log("Sending SMS: " + message);
+  }
+}
 
-const badApp = new AppBad(dbWithConnect);
-// Connected to: my-url
-badApp.saveSettings();
-// Stored: Some data
+class NotificationServiceBad {
+  private emailService: EmailServiceBad;
+  private smsService: SMSServiceBad;
+
+  constructor() {
+    this.emailService = new EmailServiceBad();
+    this.smsService = new SMSServiceBad();
+  }
+
+  notifyByEmail(msg: string): void {
+    this.emailService.sendEmail(msg);
+  }
+
+  notifyBySMS(msg: string): void {
+    this.smsService.sendSMS(msg);
+  }
+}
+
+const badNotificationService = new NotificationServiceBad();
+badNotificationService.notifyByEmail("Your order has been shipped");
+badNotificationService.notifyBySMS("OTP 1234");
 ```
 
 ```ts
-// Good: App depends only on the Database abstraction
-interface Database {
-  storeData(data: string): void;
+// Good: NotificationService depends on the NotificationChannel abstraction
+interface NotificationChannel {
+  send(msg: string): void;
 }
 
-interface RemoteDatabase {
-  connect(uri: string): void;
-}
-
-class SQLDatabase implements Database, RemoteDatabase {
-  connect(uri: string): void {
-    console.log("Connected to:", uri);
-  }
-
-  storeData(data: string): void {
-    console.log("Stored:", data);
+class EmailService implements NotificationChannel {
+  send(msg: string): void {
+    console.log("Sending Email " + msg);
   }
 }
 
-class App {
-  private database: Database;
-
-  constructor(database: Database) {
-    this.database = database; // no type checking needed!
-  }
-
-  saveSettings(): void {
-    this.database.storeData("App settings saved");
+class SMSService implements NotificationChannel {
+  send(msg: string): void {
+    console.log("Sending SMS " + msg);
   }
 }
 
-// The caller handles connection before passing the database in
-const sqlDatabase = new SQLDatabase();
-sqlDatabase.connect("my-url");
-// Connected to: my-url
+class NotificationService {
+  private notificationChannel: NotificationChannel;
 
-const app = new App(sqlDatabase);
-app.saveSettings();
-// Stored: App settings saved
+  constructor(channel: NotificationChannel) {
+    this.notificationChannel = channel;
+  }
+
+  notify(msg: string): void {
+    this.notificationChannel.send(msg);
+  }
+}
+
+// The caller decides which implementation to inject
+const emailNotification = new NotificationService(new EmailService());
+emailNotification.notify("Your order has been shipped");
+// Sending Email Your order has been shipped
+
+const smsNotification = new NotificationService(new SMSService());
+smsNotification.notify("OTP 1234");
+// Sending SMS OTP 1234
 ```
 
-The dependency is inverted: instead of `App` knowing how to connect the database, whoever creates the `App` is responsible for providing a fully configured database.
+The dependency is inverted: instead of `NotificationService` knowing how to create and manage specific channels, whoever creates the `NotificationService` is responsible for providing a fully configured channel.
 
 ---
 
