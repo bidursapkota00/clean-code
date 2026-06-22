@@ -227,3 +227,22 @@ class Driver {
   }
 }
 ```
+
+**Avoid unexpected side effects: modifying a global variable**
+
+```ts
+// Impure: modifies external state. This causes unpredictable bugs!
+let currentDiscount = 0;
+
+function calculateTotal(price: number): number {
+  currentDiscount = 10; // <-- side effect: changes external variable
+  return price - currentDiscount;
+}
+function printDiscount(): void {
+  console.log(`Your discount is $${currentDiscount}`);
+}
+// BUG: The behavior depends entirely on the order of function calls
+printDiscount(); // Your discount is $0
+calculateTotal(100);
+printDiscount(); // Your discount is $10 (Unexpected state change!)
+```
