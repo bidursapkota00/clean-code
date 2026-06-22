@@ -513,24 +513,24 @@ interface CartItem {
 
 /**
  * Calculates the total price of the items in the cart, applying any valid discounts.
- * 
+ *
  * @param items - The array of items in the shopping cart.
  * @param discountCode - An optional discount code to apply.
  * @returns The final total price.
  */
 function calculateTotal(items: CartItem[], discountCode?: string): number {
   let total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  
+
   if (discountCode === "SAVE10") {
     total *= 0.9;
   }
-  
+
   return total;
 }
 
 const cart = [
   { name: "Laptop", price: 1000, quantity: 1 },
-  { name: "Mouse", price: 50, quantity: 2 }
+  { name: "Mouse", price: 50, quantity: 2 },
 ];
 
 console.log(calculateTotal(cart, "SAVE10"));
@@ -1812,7 +1812,60 @@ Both are valid types. The key is to use the right kind for the right job and avo
 
 ### Classes & Polymorphism
 
-Use inheritance and polymorphism to eliminate duplicated `if` checks:
+Use inheritance and polymorphism to eliminate duplicated `if` statements. This is easier to maintain because adding a new type doesn't require modifying existing `if/else` logic.
+
+#### Example
+
+```ts
+// Bad: multiple if/else statements
+class AnimalSound {
+  makeSound(animal: string): void {
+    if (animal === "dog") {
+      console.log("Woof");
+    } else if (animal === "cat") {
+      console.log("Meow");
+    } else if (animal === "bird") {
+      console.log("Tweet");
+    } else {
+      console.log("Unknown sound");
+    }
+  }
+}
+
+const soundMaker = new AnimalSound();
+soundMaker.makeSound("dog"); // Woof
+```
+
+```ts
+// Good: polymorphism
+interface Animal {
+  makeSound(): void;
+}
+
+class Dog implements Animal {
+  makeSound(): void {
+    console.log("Woof");
+  }
+}
+
+class Cat implements Animal {
+  makeSound(): void {
+    console.log("Meow");
+  }
+}
+
+class Bird implements Animal {
+  makeSound(): void {
+    console.log("Tweet");
+  }
+}
+
+// Now you just call the method on the object itself
+const myDog: Animal = new Dog();
+myDog.makeSound(); // Woof
+```
+
+#### Example with Factory Pattern
 
 ```ts
 // Bad: duplicate checks for deliveryType in every method

@@ -155,3 +155,54 @@ messageUser({ acceptsMessages: true, sendMessage: () => true }, "Hello!");
 messageUser(null, "Hello!");
 // (returns early, nothing printed)
 ```
+
+Use inheritance and polymorphism to eliminate `if` statements.
+
+```ts
+// Bad: multiple if/else statements
+class AnimalSound {
+  makeSound(animal: string): void {
+    if (animal === "dog") {
+      console.log("Woof");
+    } else if (animal === "cat") {
+      console.log("Meow");
+    } else if (animal === "bird") {
+      console.log("Tweet");
+    } else {
+      console.log("Unknown sound");
+    }
+  }
+}
+
+const soundMaker = new AnimalSound();
+soundMaker.makeSound("dog"); // Woof
+```
+
+```ts
+// Good: polymorphism
+interface Animal {
+  makeSound(): void;
+}
+
+class Dog implements Animal {
+  makeSound(): void {
+    console.log("Woof");
+  }
+}
+
+class Cat implements Animal {
+  makeSound(): void {
+    console.log("Meow");
+  }
+}
+
+class Bird implements Animal {
+  makeSound(): void {
+    console.log("Tweet");
+  }
+}
+
+// Now you just call the method on the object itself
+const myDog: Animal = new Dog();
+myDog.makeSound(); // Woof
+```
