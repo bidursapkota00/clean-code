@@ -1,4 +1,4 @@
-Avoid Redundant Information
+**Avoid Redundant Information**
 
 ```ts
 class User {
@@ -17,7 +17,7 @@ console.log(user);
 // User { name: 'Max', age: 31 }
 ```
 
-Be Consistent
+**Be Consistent**
 
 ```js
 function getUsers() {
@@ -28,7 +28,7 @@ function fetchProducts() {
 }
 ```
 
-When good naming isn't enough, especially for regex
+**When good naming isn't enough, especially for regex**
 
 ```ts
 // Min. 8 characters, at least: one letter, one number, one special character
@@ -36,7 +36,7 @@ const passwordRegex =
   /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
 ```
 
-Avoid functions where a boolean flag splits behavior
+**Avoid functions where a boolean flag splits behavior**
 
 ```ts
 // Bad: boolean flag hides the function's true behavior
@@ -62,7 +62,7 @@ logMessage("Hi there!");
 logError("An error!");
 ```
 
-Don't Repeat Yourself
+**Don't Repeat Yourself**
 
 ```ts
 // Not DRY: repeated validation logic across functions
@@ -112,7 +112,7 @@ function isEmail(email: string): boolean {
 }
 ```
 
-Avoid deep nesting: use guards
+**Avoid deep nesting: use guards**
 
 ```ts
 // Bad: deeply nested, hard to follow
@@ -156,7 +156,7 @@ messageUser(null, "Hello!");
 // (returns early, nothing printed)
 ```
 
-Use inheritance and polymorphism to eliminate `if` statements.
+**Use inheritance and polymorphism to eliminate `if` statements.**
 
 ```ts
 // Bad: multiple if/else statements
@@ -205,4 +205,25 @@ class Bird implements Animal {
 // Now you just call the method on the object itself
 const myDog: Animal = new Dog();
 myDog.makeSound(); // Woof
+```
+
+**Law Of Demeter: Don't depend on the internals of "strangers."**
+
+```ts
+// Bad: The Driver reaches through the Car to start the Engine.
+class Driver {
+  startVehicle(car: Car): void {
+    // Violation: Driver shouldn't know that the Car has an Engine!
+    car.engine.start();
+  }
+}
+```
+
+```ts
+// Good: The Driver asks the Car to start. The Car manages its own Engine.
+class Driver {
+  startVehicle(car: Car): void {
+    car.start();
+  }
+}
 ```

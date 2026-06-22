@@ -2143,6 +2143,31 @@ Don't depend on the internals of "strangers." Code in a method should only acces
 - Objects received as method parameters
 - Objects created in the method
 
+#### Example 1
+
+A classic violation is "chaining" method calls or property accesses.
+
+```ts
+// Bad: The Driver reaches through the Car to start the Engine.
+class Driver {
+  startVehicle(car: Car): void {
+    // Violation: Driver shouldn't know that the Car has an Engine!
+    car.engine.start();
+  }
+}
+```
+
+```ts
+// Good: The Driver asks the Car to start. The Car manages its own Engine.
+class Driver {
+  startVehicle(car: Car): void {
+    car.start();
+  }
+}
+```
+
+#### Example 2
+
 ```ts
 // Bad: chaining through multiple objects violates the Law of Demeter
 class Customer {
